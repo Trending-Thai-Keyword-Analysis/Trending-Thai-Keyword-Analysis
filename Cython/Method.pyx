@@ -44,7 +44,8 @@ cpdef lcs(S1, S2, int m, int n):
                             for k in range(len):
                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
                                 #print(LCS)
-                            result.append(LCS)
+                            if LCS not in result:
+                                result.append(LCS)
                     elif len == L[i*(n+1) + j]:
                         k = 0
                         LCS = ""
@@ -52,7 +53,8 @@ cpdef lcs(S1, S2, int m, int n):
                         for k in range(len):
                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
                             #print(LCS)
-                        result.append(LCS)
+                        if LCS not in result:
+                            result.append(LCS)
 
         return result,len
     finally:
