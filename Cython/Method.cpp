@@ -986,12 +986,6 @@ static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
 
-/* PySequenceContains.proto */
-static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
-    int result = PySequence_Contains(seq, item);
-    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
-}
-
 /* ListAppend.proto */
 #if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
 static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
@@ -1008,6 +1002,12 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 #else
 #define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
 #endif
+
+/* PySequenceContains.proto */
+static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
+    int result = PySequence_Contains(seq, item);
+    return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
+}
 
 /* GetException.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1145,7 +1145,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from 'Method' */
 static char const **__pyx_f_6Method_to_cstring_array(PyObject *, int); /*proto*/
-static PyObject *__pyx_f_6Method_lcs(PyObject *, PyObject *, int, int, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_6Method_lcs_algo(PyObject *, PyObject *, int, int, int __pyx_skip_dispatch); /*proto*/
 #define __Pyx_MODULE_NAME "Method"
 extern int __pyx_module_is_main_Method;
 int __pyx_module_is_main_Method = 0;
@@ -1175,7 +1175,7 @@ static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_xrange;
-static PyObject *__pyx_pf_6Method_lcs(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_S1, PyObject *__pyx_v_S2, int __pyx_v_m, int __pyx_v_n); /* proto */
+static PyObject *__pyx_pf_6Method_lcs_algo(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_S1, PyObject *__pyx_v_S2, int __pyx_v_m, int __pyx_v_n); /* proto */
 /* Late includes */
 
 /* "Method.pyx":9
@@ -1239,7 +1239,7 @@ static char const **__pyx_f_6Method_to_cstring_array(PyObject *__pyx_v_list_str,
  *         ret[i] = PyUnicode_AsUTF8(list_str[i])
  *     return ret             # <<<<<<<<<<<<<<
  * 
- * cpdef lcs(S1, S2, int m, int n):
+ * cpdef lcs_algo(S1, S2, int m, int n):
  */
   __pyx_r = __pyx_v_ret;
   goto __pyx_L0;
@@ -1265,13 +1265,13 @@ static char const **__pyx_f_6Method_to_cstring_array(PyObject *__pyx_v_list_str,
 /* "Method.pyx":15
  *     return ret
  * 
- * cpdef lcs(S1, S2, int m, int n):             # <<<<<<<<<<<<<<
+ * cpdef lcs_algo(S1, S2, int m, int n):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     cdef int j = 0
  */
 
-static PyObject *__pyx_pw_6Method_1lcs(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2, int __pyx_v_m, int __pyx_v_n, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_6Method_1lcs_algo(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_6Method_lcs_algo(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2, int __pyx_v_m, int __pyx_v_n, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_i;
   int __pyx_v_j;
   int __pyx_v_k;
@@ -1307,11 +1307,11 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("lcs", 0);
+  __Pyx_RefNannySetupContext("lcs_algo", 0);
 
   /* "Method.pyx":16
  * 
- * cpdef lcs(S1, S2, int m, int n):
+ * cpdef lcs_algo(S1, S2, int m, int n):
  *     cdef int i = 0             # <<<<<<<<<<<<<<
  *     cdef int j = 0
  *     cdef int k = 0
@@ -1319,7 +1319,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
   __pyx_v_i = 0;
 
   /* "Method.pyx":17
- * cpdef lcs(S1, S2, int m, int n):
+ * cpdef lcs_algo(S1, S2, int m, int n):
  *     cdef int i = 0
  *     cdef int j = 0             # <<<<<<<<<<<<<<
  *     cdef int k = 0
@@ -1450,7 +1450,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
  *             j = 1
  *             for j in range(1,n+1):             # <<<<<<<<<<<<<<
  *                 if strcmp(c_arr1[i-1],c_arr2[j-1]) == 0:
- *                     #printf("%s | %s\n",c_arr1[i-1],c_arr2[j-1])
+ *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
  */
       __pyx_t_5 = (__pyx_v_n + 1);
       __pyx_t_6 = __pyx_t_5;
@@ -1461,23 +1461,23 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
  *             j = 1
  *             for j in range(1,n+1):
  *                 if strcmp(c_arr1[i-1],c_arr2[j-1]) == 0:             # <<<<<<<<<<<<<<
- *                     #printf("%s | %s\n",c_arr1[i-1],c_arr2[j-1])
  *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
+ *                     if len < L[i*(n+1) + j]:
  */
         __pyx_t_8 = ((strcmp((__pyx_v_c_arr1[(__pyx_v_i - 1)]), (__pyx_v_c_arr2[(__pyx_v_j - 1)])) == 0) != 0);
         if (__pyx_t_8) {
 
-          /* "Method.pyx":35
+          /* "Method.pyx":34
+ *             for j in range(1,n+1):
  *                 if strcmp(c_arr1[i-1],c_arr2[j-1]) == 0:
- *                     #printf("%s | %s\n",c_arr1[i-1],c_arr2[j-1])
  *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1             # <<<<<<<<<<<<<<
  *                     if len < L[i*(n+1) + j]:
  *                         if 2 < L[i*(n+1) + j] < 9:
  */
           (__pyx_v_L[((__pyx_v_i * (__pyx_v_n + 1)) + __pyx_v_j)]) = ((__pyx_v_L[((((__pyx_v_i * (__pyx_v_n + 1)) + __pyx_v_j) - __pyx_v_n) - 2)]) + 1);
 
-          /* "Method.pyx":36
- *                     #printf("%s | %s\n",c_arr1[i-1],c_arr2[j-1])
+          /* "Method.pyx":35
+ *                 if strcmp(c_arr1[i-1],c_arr2[j-1]) == 0:
  *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
  *                     if len < L[i*(n+1) + j]:             # <<<<<<<<<<<<<<
  *                         if 2 < L[i*(n+1) + j] < 9:
@@ -1486,12 +1486,12 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
           __pyx_t_8 = ((__pyx_v_len < (__pyx_v_L[((__pyx_v_i * (__pyx_v_n + 1)) + __pyx_v_j)])) != 0);
           if (__pyx_t_8) {
 
-            /* "Method.pyx":37
+            /* "Method.pyx":36
  *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
  *                     if len < L[i*(n+1) + j]:
  *                         if 2 < L[i*(n+1) + j] < 9:             # <<<<<<<<<<<<<<
  *                             len = L[i*(n+1) + j]
- *                             #printf("%d\n",len)
+ *                             result = []
  */
             __pyx_t_9 = (__pyx_v_L[((__pyx_v_i * (__pyx_v_n + 1)) + __pyx_v_j)]);
             __pyx_t_8 = (2 < __pyx_t_9);
@@ -1501,114 +1501,94 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
             __pyx_t_10 = (__pyx_t_8 != 0);
             if (__pyx_t_10) {
 
-              /* "Method.pyx":38
+              /* "Method.pyx":37
  *                     if len < L[i*(n+1) + j]:
  *                         if 2 < L[i*(n+1) + j] < 9:
  *                             len = L[i*(n+1) + j]             # <<<<<<<<<<<<<<
- *                             #printf("%d\n",len)
  *                             result = []
+ *                             k = 0
  */
               __pyx_v_len = (__pyx_v_L[((__pyx_v_i * (__pyx_v_n + 1)) + __pyx_v_j)]);
 
-              /* "Method.pyx":40
+              /* "Method.pyx":38
+ *                         if 2 < L[i*(n+1) + j] < 9:
  *                             len = L[i*(n+1) + j]
- *                             #printf("%d\n",len)
  *                             result = []             # <<<<<<<<<<<<<<
  *                             k = 0
  *                             LCS = ""
  */
-              __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 40, __pyx_L6_error)
+              __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 38, __pyx_L6_error)
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_DECREF_SET(__pyx_v_result, ((PyObject*)__pyx_t_4));
               __pyx_t_4 = 0;
 
-              /* "Method.pyx":41
- *                             #printf("%d\n",len)
+              /* "Method.pyx":39
+ *                             len = L[i*(n+1) + j]
  *                             result = []
  *                             k = 0             # <<<<<<<<<<<<<<
  *                             LCS = ""
- *                             #printf("%d | %d\n",k,len)
+ *                             for k in range(len):
  */
               __pyx_v_k = 0;
 
-              /* "Method.pyx":42
+              /* "Method.pyx":40
  *                             result = []
  *                             k = 0
  *                             LCS = ""             # <<<<<<<<<<<<<<
- *                             #printf("%d | %d\n",k,len)
  *                             for k in range(len):
+ *                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
  */
               __Pyx_INCREF(__pyx_kp_u_);
               __Pyx_XDECREF_SET(__pyx_v_LCS, __pyx_kp_u_);
 
-              /* "Method.pyx":44
+              /* "Method.pyx":41
+ *                             k = 0
  *                             LCS = ""
- *                             #printf("%d | %d\n",k,len)
  *                             for k in range(len):             # <<<<<<<<<<<<<<
  *                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
- *                                 #print(LCS)
+ *                             result.append(LCS)
  */
               __pyx_t_9 = __pyx_v_len;
               __pyx_t_11 = __pyx_t_9;
               for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
                 __pyx_v_k = __pyx_t_12;
 
-                /* "Method.pyx":45
- *                             #printf("%d | %d\n",k,len)
+                /* "Method.pyx":42
+ *                             LCS = ""
  *                             for k in range(len):
  *                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS             # <<<<<<<<<<<<<<
- *                                 #print(LCS)
- *                             if LCS not in result:
+ *                             result.append(LCS)
+ *                     elif len == L[i*(n+1) + j]:
  */
-                __pyx_t_4 = PyUnicode_DecodeUTF8((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)]), strlen((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)])), ((char const *)"surrogateescape")); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L6_error)
+                __pyx_t_4 = PyUnicode_DecodeUTF8((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)]), strlen((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)])), ((char const *)"surrogateescape")); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 42, __pyx_L6_error)
                 __Pyx_GOTREF(__pyx_t_4);
-                __pyx_t_13 = PyNumber_Add(__pyx_t_4, __pyx_v_LCS); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 45, __pyx_L6_error)
+                __pyx_t_13 = PyNumber_Add(__pyx_t_4, __pyx_v_LCS); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 42, __pyx_L6_error)
                 __Pyx_GOTREF(__pyx_t_13);
                 __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
                 __Pyx_DECREF_SET(__pyx_v_LCS, __pyx_t_13);
                 __pyx_t_13 = 0;
               }
 
-              /* "Method.pyx":47
+              /* "Method.pyx":43
+ *                             for k in range(len):
  *                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
- *                                 #print(LCS)
- *                             if LCS not in result:             # <<<<<<<<<<<<<<
- *                                 result.append(LCS)
- *                     elif len == L[i*(n+1) + j]:
- */
-              __pyx_t_10 = (__Pyx_PySequence_ContainsTF(__pyx_v_LCS, __pyx_v_result, Py_NE)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 47, __pyx_L6_error)
-              __pyx_t_8 = (__pyx_t_10 != 0);
-              if (__pyx_t_8) {
-
-                /* "Method.pyx":48
- *                                 #print(LCS)
- *                             if LCS not in result:
- *                                 result.append(LCS)             # <<<<<<<<<<<<<<
+ *                             result.append(LCS)             # <<<<<<<<<<<<<<
  *                     elif len == L[i*(n+1) + j]:
  *                         k = 0
  */
-                __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_result, __pyx_v_LCS); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 48, __pyx_L6_error)
+              __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_result, __pyx_v_LCS); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 43, __pyx_L6_error)
 
-                /* "Method.pyx":47
- *                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
- *                                 #print(LCS)
- *                             if LCS not in result:             # <<<<<<<<<<<<<<
- *                                 result.append(LCS)
- *                     elif len == L[i*(n+1) + j]:
- */
-              }
-
-              /* "Method.pyx":37
+              /* "Method.pyx":36
  *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
  *                     if len < L[i*(n+1) + j]:
  *                         if 2 < L[i*(n+1) + j] < 9:             # <<<<<<<<<<<<<<
  *                             len = L[i*(n+1) + j]
- *                             #printf("%d\n",len)
+ *                             result = []
  */
             }
 
-            /* "Method.pyx":36
- *                     #printf("%s | %s\n",c_arr1[i-1],c_arr2[j-1])
+            /* "Method.pyx":35
+ *                 if strcmp(c_arr1[i-1],c_arr2[j-1]) == 0:
  *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
  *                     if len < L[i*(n+1) + j]:             # <<<<<<<<<<<<<<
  *                         if 2 < L[i*(n+1) + j] < 9:
@@ -1617,95 +1597,95 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
             goto __pyx_L13;
           }
 
-          /* "Method.pyx":49
- *                             if LCS not in result:
- *                                 result.append(LCS)
+          /* "Method.pyx":44
+ *                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
+ *                             result.append(LCS)
  *                     elif len == L[i*(n+1) + j]:             # <<<<<<<<<<<<<<
  *                         k = 0
  *                         LCS = ""
  */
-          __pyx_t_8 = ((__pyx_v_len == (__pyx_v_L[((__pyx_v_i * (__pyx_v_n + 1)) + __pyx_v_j)])) != 0);
-          if (__pyx_t_8) {
+          __pyx_t_10 = ((__pyx_v_len == (__pyx_v_L[((__pyx_v_i * (__pyx_v_n + 1)) + __pyx_v_j)])) != 0);
+          if (__pyx_t_10) {
 
-            /* "Method.pyx":50
- *                                 result.append(LCS)
+            /* "Method.pyx":45
+ *                             result.append(LCS)
  *                     elif len == L[i*(n+1) + j]:
  *                         k = 0             # <<<<<<<<<<<<<<
  *                         LCS = ""
- *                         #printf("%d | %d\n",k,len)
+ *                         for k in range(len):
  */
             __pyx_v_k = 0;
 
-            /* "Method.pyx":51
+            /* "Method.pyx":46
  *                     elif len == L[i*(n+1) + j]:
  *                         k = 0
  *                         LCS = ""             # <<<<<<<<<<<<<<
- *                         #printf("%d | %d\n",k,len)
  *                         for k in range(len):
+ *                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
  */
             __Pyx_INCREF(__pyx_kp_u_);
             __Pyx_XDECREF_SET(__pyx_v_LCS, __pyx_kp_u_);
 
-            /* "Method.pyx":53
+            /* "Method.pyx":47
+ *                         k = 0
  *                         LCS = ""
- *                         #printf("%d | %d\n",k,len)
  *                         for k in range(len):             # <<<<<<<<<<<<<<
  *                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
- *                             #print(LCS)
+ *                         if LCS not in result:
  */
             __pyx_t_9 = __pyx_v_len;
             __pyx_t_11 = __pyx_t_9;
             for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_11; __pyx_t_12+=1) {
               __pyx_v_k = __pyx_t_12;
 
-              /* "Method.pyx":54
- *                         #printf("%d | %d\n",k,len)
+              /* "Method.pyx":48
+ *                         LCS = ""
  *                         for k in range(len):
  *                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS             # <<<<<<<<<<<<<<
- *                             #print(LCS)
  *                         if LCS not in result:
+ *                             result.append(LCS)
  */
-              __pyx_t_13 = PyUnicode_DecodeUTF8((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)]), strlen((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)])), ((char const *)"surrogateescape")); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 54, __pyx_L6_error)
+              __pyx_t_13 = PyUnicode_DecodeUTF8((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)]), strlen((__pyx_v_c_arr1[((__pyx_v_i - 1) - __pyx_v_k)])), ((char const *)"surrogateescape")); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 48, __pyx_L6_error)
               __Pyx_GOTREF(__pyx_t_13);
-              __pyx_t_4 = PyNumber_Add(__pyx_t_13, __pyx_v_LCS); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L6_error)
+              __pyx_t_4 = PyNumber_Add(__pyx_t_13, __pyx_v_LCS); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 48, __pyx_L6_error)
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
               __Pyx_DECREF_SET(__pyx_v_LCS, __pyx_t_4);
               __pyx_t_4 = 0;
             }
 
-            /* "Method.pyx":56
+            /* "Method.pyx":49
+ *                         for k in range(len):
  *                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
- *                             #print(LCS)
  *                         if LCS not in result:             # <<<<<<<<<<<<<<
  *                             result.append(LCS)
  * 
  */
-            __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_v_LCS, __pyx_v_result, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 56, __pyx_L6_error)
-            __pyx_t_10 = (__pyx_t_8 != 0);
-            if (__pyx_t_10) {
+            __pyx_t_10 = (__Pyx_PySequence_ContainsTF(__pyx_v_LCS, __pyx_v_result, Py_NE)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 49, __pyx_L6_error)
+            __pyx_t_8 = (__pyx_t_10 != 0);
+            if (__pyx_t_8) {
 
-              /* "Method.pyx":57
- *                             #print(LCS)
+              /* "Method.pyx":50
+ *                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
  *                         if LCS not in result:
  *                             result.append(LCS)             # <<<<<<<<<<<<<<
  * 
  *         return result,len
  */
-              __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_result, __pyx_v_LCS); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 57, __pyx_L6_error)
+              __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_result, __pyx_v_LCS); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 50, __pyx_L6_error)
 
-              /* "Method.pyx":56
+              /* "Method.pyx":49
+ *                         for k in range(len):
  *                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
- *                             #print(LCS)
  *                         if LCS not in result:             # <<<<<<<<<<<<<<
  *                             result.append(LCS)
  * 
  */
             }
 
-            /* "Method.pyx":49
- *                             if LCS not in result:
- *                                 result.append(LCS)
+            /* "Method.pyx":44
+ *                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
+ *                             result.append(LCS)
  *                     elif len == L[i*(n+1) + j]:             # <<<<<<<<<<<<<<
  *                         k = 0
  *                         LCS = ""
@@ -1717,14 +1697,14 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
  *             j = 1
  *             for j in range(1,n+1):
  *                 if strcmp(c_arr1[i-1],c_arr2[j-1]) == 0:             # <<<<<<<<<<<<<<
- *                     #printf("%s | %s\n",c_arr1[i-1],c_arr2[j-1])
  *                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
+ *                     if len < L[i*(n+1) + j]:
  */
         }
       }
     }
 
-    /* "Method.pyx":59
+    /* "Method.pyx":52
  *                             result.append(LCS)
  * 
  *         return result,len             # <<<<<<<<<<<<<<
@@ -1732,9 +1712,9 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
  *         free(L)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L6_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_len); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L6_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 59, __pyx_L6_error)
+    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 52, __pyx_L6_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_INCREF(__pyx_v_result);
     __Pyx_GIVEREF(__pyx_v_result);
@@ -1747,7 +1727,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
     goto __pyx_L5_return;
   }
 
-  /* "Method.pyx":61
+  /* "Method.pyx":54
  *         return result,len
  *     finally:
  *         free(L)             # <<<<<<<<<<<<<<
@@ -1774,7 +1754,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
       {
         free(__pyx_v_L);
 
-        /* "Method.pyx":62
+        /* "Method.pyx":55
  *     finally:
  *         free(L)
  *         free(c_arr1)             # <<<<<<<<<<<<<<
@@ -1783,7 +1763,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
  */
         free(__pyx_v_c_arr1);
 
-        /* "Method.pyx":63
+        /* "Method.pyx":56
  *         free(L)
  *         free(c_arr1)
  *         free(c_arr2)             # <<<<<<<<<<<<<<
@@ -1809,7 +1789,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
       __pyx_t_21 = __pyx_r;
       __pyx_r = 0;
 
-      /* "Method.pyx":61
+      /* "Method.pyx":54
  *         return result,len
  *     finally:
  *         free(L)             # <<<<<<<<<<<<<<
@@ -1818,7 +1798,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
  */
       free(__pyx_v_L);
 
-      /* "Method.pyx":62
+      /* "Method.pyx":55
  *     finally:
  *         free(L)
  *         free(c_arr1)             # <<<<<<<<<<<<<<
@@ -1827,7 +1807,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
  */
       free(__pyx_v_c_arr1);
 
-      /* "Method.pyx":63
+      /* "Method.pyx":56
  *         free(L)
  *         free(c_arr1)
  *         free(c_arr2)             # <<<<<<<<<<<<<<
@@ -1843,7 +1823,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
   /* "Method.pyx":15
  *     return ret
  * 
- * cpdef lcs(S1, S2, int m, int n):             # <<<<<<<<<<<<<<
+ * cpdef lcs_algo(S1, S2, int m, int n):             # <<<<<<<<<<<<<<
  *     cdef int i = 0
  *     cdef int j = 0
  */
@@ -1852,7 +1832,7 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_AddTraceback("Method.lcs", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Method.lcs_algo", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_result);
@@ -1863,8 +1843,8 @@ static PyObject *__pyx_f_6Method_lcs(PyObject *__pyx_v_S1, PyObject *__pyx_v_S2,
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6Method_1lcs(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_6Method_1lcs(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_6Method_1lcs_algo(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_6Method_1lcs_algo(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_S1 = 0;
   PyObject *__pyx_v_S2 = 0;
   int __pyx_v_m;
@@ -1874,7 +1854,7 @@ static PyObject *__pyx_pw_6Method_1lcs(PyObject *__pyx_self, PyObject *__pyx_arg
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("lcs (wrapper)", 0);
+  __Pyx_RefNannySetupContext("lcs_algo (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_S1,&__pyx_n_s_S2,&__pyx_n_s_m,&__pyx_n_s_n,0};
     PyObject* values[4] = {0,0,0,0};
@@ -1902,23 +1882,23 @@ static PyObject *__pyx_pw_6Method_1lcs(PyObject *__pyx_self, PyObject *__pyx_arg
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_S2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lcs", 1, 4, 4, 1); __PYX_ERR(0, 15, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("lcs_algo", 1, 4, 4, 1); __PYX_ERR(0, 15, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_m)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lcs", 1, 4, 4, 2); __PYX_ERR(0, 15, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("lcs_algo", 1, 4, 4, 2); __PYX_ERR(0, 15, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_n)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("lcs", 1, 4, 4, 3); __PYX_ERR(0, 15, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("lcs_algo", 1, 4, 4, 3); __PYX_ERR(0, 15, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "lcs") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "lcs_algo") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -1935,29 +1915,29 @@ static PyObject *__pyx_pw_6Method_1lcs(PyObject *__pyx_self, PyObject *__pyx_arg
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("lcs", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("lcs_algo", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("Method.lcs", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Method.lcs_algo", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6Method_lcs(__pyx_self, __pyx_v_S1, __pyx_v_S2, __pyx_v_m, __pyx_v_n);
+  __pyx_r = __pyx_pf_6Method_lcs_algo(__pyx_self, __pyx_v_S1, __pyx_v_S2, __pyx_v_m, __pyx_v_n);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6Method_lcs(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_S1, PyObject *__pyx_v_S2, int __pyx_v_m, int __pyx_v_n) {
+static PyObject *__pyx_pf_6Method_lcs_algo(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_S1, PyObject *__pyx_v_S2, int __pyx_v_m, int __pyx_v_n) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("lcs", 0);
+  __Pyx_RefNannySetupContext("lcs_algo", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_6Method_lcs(__pyx_v_S1, __pyx_v_S2, __pyx_v_m, __pyx_v_n, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_6Method_lcs_algo(__pyx_v_S1, __pyx_v_S2, __pyx_v_m, __pyx_v_n, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -1966,7 +1946,7 @@ static PyObject *__pyx_pf_6Method_lcs(CYTHON_UNUSED PyObject *__pyx_self, PyObje
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("Method.lcs", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Method.lcs_algo", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1975,7 +1955,7 @@ static PyObject *__pyx_pf_6Method_lcs(CYTHON_UNUSED PyObject *__pyx_self, PyObje
 }
 
 static PyMethodDef __pyx_methods[] = {
-  {"lcs", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6Method_1lcs, METH_VARARGS|METH_KEYWORDS, 0},
+  {"lcs_algo", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6Method_1lcs_algo, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 

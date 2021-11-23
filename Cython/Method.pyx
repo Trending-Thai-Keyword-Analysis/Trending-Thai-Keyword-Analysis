@@ -12,7 +12,7 @@ cdef const char ** to_cstring_array(list_str, int length):
         ret[i] = PyUnicode_AsUTF8(list_str[i])
     return ret
 
-cpdef lcs(S1, S2, int m, int n):
+cpdef lcs_algo(S1, S2, int m, int n):
     cdef int i = 0
     cdef int j = 0
     cdef int k = 0
@@ -31,28 +31,21 @@ cpdef lcs(S1, S2, int m, int n):
             j = 1
             for j in range(1,n+1):
                 if strcmp(c_arr1[i-1],c_arr2[j-1]) == 0:
-                    #printf("%s | %s\n",c_arr1[i-1],c_arr2[j-1])
                     L[i*(n+1) + j] = L[i*(n+1) + j - n - 2] + 1
                     if len < L[i*(n+1) + j]:
                         if 2 < L[i*(n+1) + j] < 9:
                             len = L[i*(n+1) + j]
-                            #printf("%d\n",len)
                             result = []
                             k = 0
                             LCS = ""
-                            #printf("%d | %d\n",k,len)
                             for k in range(len):
                                 LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
-                                #print(LCS)
-                            if LCS not in result:
-                                result.append(LCS)
+                            result.append(LCS)
                     elif len == L[i*(n+1) + j]:
                         k = 0
                         LCS = ""
-                        #printf("%d | %d\n",k,len)
                         for k in range(len):
                             LCS = PyUnicode_DecodeUTF8(c_arr1[i-1-k],strlen(c_arr1[i-1-k]),"surrogateescape") + LCS
-                            #print(LCS)
                         if LCS not in result:
                             result.append(LCS)
 
